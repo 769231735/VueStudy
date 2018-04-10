@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>别名和重定向</title>
+    <style>
+        .act{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <router-link to="/food">食物</router-link>
+    <router-link to="/cart/张三">购物车</router-link>
+
+    <button @click="goToFood">跳转食物</button>
+    <button @click="goToCart1">跳转购物车1</button>
+    <button @click="goToCart2">跳转购物车2</button>
+    <button @click="backToLast">返回上一页</button>
+    <button @click="goToNext">前往下一页</button>
+    <router-view ></router-view>
+
+
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    Vue.use(VueRouter);
+    var Food = {
+        template: `<h3>食物
+            <router-view></router-view>
+</h3>`,
+
+    }
+    var Cart = {
+        template:`<h1>购物车
+            <p>{{$route.params.name}}</p>
+            <p>$route是代表该路由的对象</p>
+            <p>{{$route.path}}</p>
+            <p>动态地址参数age:{{$route.query.age}}</p>
+        </h1>`
+    }
+
+   // 子路由
+    var List ={
+        template:`<div>食物列表</div>`
+    }
+    var Detail = {
+        template:`<div>食物详情</div>`
+    }
+
+    // 主路由
+   var  routes = [{
+        path:"/",
+       // component:Food
+       redirect:"/food" //重定向到对应的路由
+
+
+   },{
+        path:"/food",
+        component:Food,
+        alias:'/b',// 别名
+        children:[
+        //定义子路由，子路由对应的组件会在父路由的组件中显示
+            {
+                path:"list",
+                component:List
+            },
+            {
+                path:"detail",
+                component:Detail
+            },
+        ]
+    },{
+        path:"/cart/:name",
+        component:Cart,
+        name:"cartRoute"
+    }]
+    var router = new VueRouter({
+        routes:routes,
+        // mode:'history',//改变模式，可选的是：hash，history，默认是hash
+        linkActiveClass:'act'//给当前路由的link一个自定义的class
+    })
+    console.log(router);
+
+    new Vue({
+        el:"#container",
+        router:router,
+        data:{
+            name:'李四',
+            age:88
+        },
+        methods:{
+            goToFood(){
+                //this.$router是VueRouter实例化的对象，这是路由管理器
+                // console.log(this.$router);
+                //参数是路径字符串
+                // this.$router.push('/food');
+                //参数是对象
+                this.$router.push({
+                    path:"/food/detail"
+                })
+
+            },
+            goToCart1(){
+                this.$router.push({
+                    path:`/cart/${this.name}`,
+                    query:{
+                        age:this.age
+                    }
+
+                })
+            },
+            goToCart2(){
+                this.$router.push({
+                    name:"cartRoute",
+                    params:{
+                        name:this.name,
+
+                    },
+                    query:{
+                        age:this.age
+                    }
+                })
+            },
+            backToLast(){
+                // this.$router.back();
+                this.$router.go(-1);
+            },
+
+            goToNext(){
+                // this.$router.forward();
+                this.$router.go(3);
+            }
+
+        }
+    })
+
+</script>
+</html>

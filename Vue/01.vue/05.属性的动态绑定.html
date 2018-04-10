@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>属性绑定</title>
+    <style>
+        .div1{
+            width:300px;
+            height: 300px;
+            background: deeppink;
+        }
+        .div2{
+            width:300px;
+            height: 300px;
+            background: blue;
+        }
+        .act{
+            border:10px solid green;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--属性的动态绑定 v-bind:属性名,简写为 :属性名-->
+        <a href="http://www.baidu.com">写死跳转</a>
+        <hr>
+        <a :href="url">v-bind:href跳转</a>
+        <hr>
+
+        <!--动态样式的设置-->
+        <!--<div v-bind:class="activeClass"></div>-->
+
+        <button @click="changeStyle">改变样式</button>
+        <!--动态class还能接受一个对象-->
+        <div :class="{div1:bol,div2:!bol}">:class="{div1:bol,div2:!bol}"</div>
+
+
+        <!--动态样式还能接收一个数组，实现样式的拼合效果-->
+        <div class="div2" :class="[activeClass,act]">class="div2" :class="[activeClass,act]"</div>
+        <hr>
+        <!--对style的动态绑定-->
+        <div style="width: 200px;height: 200px;background:deepskyblue">style="width: 200px;height: 200px;background:deepskyblue"</div>
+        <hr>
+        <div :style="{width: width,height:height,backgroundColor:bgColor}">:style="{width: width,height:height,backgroundColor:bgColor}"</div>
+        <hr>
+        <div :style="styleObj">:style="styleObj"</div>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#root",
+        data:{
+            bol:true,
+            url:"http://www.sogou.com",
+            activeClass:"div1",
+            act:"act",
+            width:"300px",
+            height:"300px",
+            bgColor:"purple",
+            styleObj:{
+                width:"300px",
+                height:"300px",
+                backgroundColor:"purple",
+            }
+        },
+        methods:{
+            changeStyle(){
+                // this.activeClass = "div2"
+                this.bol = !this.bol
+            }
+
+        }
+    });
+
+</script>
+</html>

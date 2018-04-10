@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>非父子组件的通讯</title>
+</head>
+<body>
+    <div id="container"><Dad></Dad></div>
+</body>
+<script src="vue.js"></script>
+<script>
+    /*目的：点击A按钮，B按钮上的数字增加，点击B按钮，A按钮上的数字增加
+    * 通过一个新的Vue实例，搭建沟通非父子(兄弟)组件间的通信
+    * */
+    var bus = new Vue();
+    var A = {
+        template:`<button @click="changeB">{{count}}</button>`,
+        data(){
+            return{
+                count:0
+            }
+        },
+        methods:{
+            changeB(){
+                bus.$emit("changeB")
+            }
+        },
+        mounted(){
+            bus.$on("changeA",()=>{
+                //    监听changeA事件的触发
+                this.count++;
+            })
+        }
+    }
+
+    var B = {
+        template:`<button @click="changeA">{{count}}</button>`,
+        data(){
+            return{
+                count:0
+            }
+        },
+        mounted(){
+            bus.$on("changeB",()=>{
+                //    监听changeB事件的触发
+                this.count++;
+            })
+        },
+        methods:{
+            changeA(){
+                bus.$emit("changeA")
+            }
+        }
+    }
+
+    var Dad = {
+        template:`<div>
+                    <component-a></component-a>
+                    <component-b></component-b>
+                </div>`,
+        components:{
+            "component-a":A,
+            "component-b":B
+        }
+    }
+
+    var vm = new Vue({
+        el:"#container",
+        components:{
+            Dad
+        }
+    });
+
+
+</script>
+</html>

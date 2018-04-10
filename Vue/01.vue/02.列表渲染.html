@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表渲染</title>
+</head>
+<body>
+    <div id="root">
+        <!--使用v-for对列表（数组或对象）渲染-->
+        <!--对象数组-->
+        <!--这里循环里的item是自定义的-->
+        <ul>
+            <li v-for="item in cartList">
+                <span>{{item.productName}}</span>
+                <span>{{item.quantity}}</span>
+                <span>{{item.price}}</span>
+            </li>
+        </ul>
+        <!--数组-->
+        <!--数组括号里的第二个值为下标-->
+        <ul>
+            <li v-for="(value,index) in arr"  @dblclick="change(index)">
+                {{value}} - {{index}}
+
+            </li>
+        </ul>
+        <button v-on:click="add">添加</button>
+        <!--对象-->
+        <!--第一个值为value，第二个值为对象的键值，第三个为对象的下标-->
+        <ul>
+            <li v-for="(value,key,index) in person">
+                {{value}} - {{key}} - {{index}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    new Vue({
+        el:"#root",
+        data:{
+            cartList:[
+                {
+                    "productName":"帝豪香烟",
+                    "quantity":10,
+                    "price":25
+                },{
+                    "productName":"矿泉水",
+                    "quantity":100,
+                    "price":2.5
+                }
+            ],
+            arr:["Alice","Candy","Jenny"],
+            person:{
+                name:"张三",
+                age:30,
+                sex:"female"
+            }
+        },
+        methods:{
+            add(){
+                this.arr.push("Mikey");
+            },
+            change(index){
+                // this.arr[index] = "Marry";
+                // 不能立即促使页面重新渲染。如果是数组或者是对象(复杂数据类型)使用$set进行更新
+                //set(要改变的数组或者对象，要改变这个对象或者数组中的索引，变更的内容);
+
+                // Tip:Vue.set()在methods中也可以写成this.$set()
+                this.$set(this.arr,index,"Marry");
+            }
+        }
+    })
+</script>
+</html>

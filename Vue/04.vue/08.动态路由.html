@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="animate.css">
+
+    <title>动态路由</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <router-link to="/food">食物</router-link>
+        <router-link to="/rating">评价</router-link>
+        <router-link to="/seller">商家</router-link>
+        <!--动态路由通过v:bind进行绑定-->
+        <!--<router-link to="/cart/1389454465">购物车</router-link>-->
+        <router-link :to="{name:'cart',params:{name:'张三',id:100}}">购物车</router-link>
+
+        <router-view></router-view>
+
+    </div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    //使用VueRouter
+    Vue.use(VueRouter);
+    var Food = {
+        template:`<p>食物页</p>`,
+    }
+    var Rating = {
+        template:"<p>评价页</p>"
+    }
+    var Seller = {
+        template:"<p>商家页</p>"
+    }
+    var Cart = {
+        template:`<div>
+            <p>我是购物车</p>
+            <p>{{$route.params.id}}</p>
+            <p>{{$route.params.name}}</p>
+</div>`,
+
+        mounted(){
+            //动态路由所传参数，都放在$route
+            console.log(this.$route.params);//{id: "1389454465"}
+        }
+    }
+    //实例一个路由的映射，使得每一个路由与组件一一匹配。
+    var routes = [{
+        path:"/food",
+        component:Food
+    },{
+        path:"/rating",
+        component:Rating
+    },{
+        path:"/seller",
+        component:Seller
+    },{
+        path:"/cart/:id/:name",
+        component:Cart,
+        name:'cart'
+    }]
+
+    //实例化VueRouter,并将Routes配置到该实例中,该实例其实是该项目的路由管理器
+    var router = new VueRouter({
+        routes:routes,
+        linkActiveClass:'act',//使点击的那个导航样式改变，如颜色改变
+        mode:"history",//改变hash还是浏览器的history
+    });
+
+    //将管理器（router），应用到Vue实例上
+    new Vue({
+        el:"#container",
+        router:router
+    });
+
+</script>
+</html>

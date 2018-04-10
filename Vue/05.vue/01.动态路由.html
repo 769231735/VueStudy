@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态路由</title>
+    <style>
+    </style>
+</head>
+<body>
+<div id="container">
+    <router-link to="/food">食物</router-link>
+    <!--<router-link to="/cart">购物车1</router-link>-->
+    <router-link :to="{path:'/cart/张三',query:{age:38}}">购物车2</router-link>
+
+    <!--动态参数的传递-->
+    <router-link :to="{path:`/cart/${name}`,query:{age:age}}">购物车3</router-link>
+
+    <router-link :to="{name:'cartRoute',params:{name:name},query:{age:age}}">购物车4</router-link>
+    <router-view ></router-view>
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    Vue.use(VueRouter);
+    var Food = {
+        template:"<h4>食物</h4>"
+    }
+    var Cart = {
+        template:`<h4>购物车
+            <p>$route.params:{{$route.params}}</p>
+            <p style="color: red">$route是代表该路由的对象</p>
+            <p>$route.path：{{$route.path}}</p>
+            <p>$route.query：{{$route.query}}</p>
+        </h4>`
+    }
+   var  routes = [{
+        path:"/food",
+        component:Food
+    },{
+        path:"/cart/:name",
+        component:Cart,
+        name:"cartRoute"
+    }]
+    var router = new VueRouter({
+        routes:routes
+    })
+    new Vue({
+        el:"#container",
+        router:router,
+        data:{
+            name:'李四',
+            age:88
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vuex的使用</title>
+</head>
+<body>
+    <div id="container">
+        {{this.$store.state.count}}
+        <component-a></component-a>
+        <component-b></component-b>
+
+    </div>
+</body>
+<script src="vue.js"></script>
+<!--引入vuex-->
+<script src="https://unpkg.com/vuex"></script>
+<script>
+    console.log(Vuex);//vuex 返回的是一个对象
+    /*
+    * <1>.vuex就是状态管理器，用于非父子的组件的数据传递，大型项目用这个，小型项目就用bus就可以
+    * <2>.Vuex：状态管理器，可以将各个组件的状态统一管理
+    * <3>.管理模式，就是通过一个store(仓库)统一管理
+    *
+    * */
+    var store = new Vuex.Store({
+        state:{
+            // 与组件的data功能相同，应用程序状态的初始化，
+            count:0
+        },
+        mutations:{
+            // 与组件的methods相同，在事件触发时可以通过commit
+            add(state){
+                // 默认第一个参数是store的state
+                state.count++;
+            },
+            reduce(state){
+                state.count--;
+            }
+        }
+    })
+
+
+    var A = {
+        template:`<div>
+                    <p>{{this.$store.state.count}}</p>
+                    <button @click="$store.commit('add')">+</button>
+                    <button @click="$store.commit('reduce')">-</button>
+
+                </div>`,
+    }
+    var B = {
+        template:`<div>
+                <p>{{$store.state.count}}</p>
+</div>`
+    }
+
+    //注册Store，以在实例及其组件中使用store
+    new Vue({
+        el:"#container",
+        store:store,
+        components:{
+            "component-a":A,
+            "component-b":B
+        }
+    });
+</script>
+</html>

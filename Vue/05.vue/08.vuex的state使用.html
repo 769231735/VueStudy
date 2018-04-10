@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vuex的state使用</title>
+</head>
+<body>
+    <div id="container">
+        {{count}}
+        <p>{{msg}}</p>
+        <p>{{mine}}</p>
+        <component-a></component-a>
+        <component-b></component-b>
+    </div>
+</body>
+<script src="vue.js"></script>
+<!--引入vuex-->
+<script src="https://unpkg.com/vuex"></script>
+<script>
+    console.log(Vuex);
+    var mapState = Vuex.mapState;//使用State方法
+
+    var store = new Vuex.Store({
+        state:{
+            // 与组件的data功能相同，应用程序状态的初始化，
+            count:0,
+            msg:"store的信息"
+        },
+        mutations:{
+            // 与组件的methods相同，在事件触发时可以通过commit
+            add(state){
+                // 默认第一个参数是store的state
+                state.count++;
+            },
+            reduce(state){
+                state.count--;
+            }
+        }
+    })
+    var A = {
+        template:`<div>
+                    <p>{{this.$store.state.count}}</p>
+
+                    <button @click="$store.commit('add')">+</button>
+                    <button @click="$store.commit('reduce')">-</button>
+
+                </div>`,
+
+    }
+    var B = {
+        template:`<div>
+                <!--<p>{{count}}</p>-->
+                <p>{{aliasCount}}</p>
+                <p>{{plus}}</p>
+</div>`,
+
+        computed:{
+            //组件要使用必须也要对应写计算属性，每个组件
+            // ...mapState(['count','msg'])
+            // 参数可以是一个对象（作为了解）
+            ...mapState({
+                aliasCount:'count',//将state中的count赋值给aliasCount
+                plus:function (state) {
+                    return state.count + 10;
+                }
+            })
+        }
+    }
+
+    //注册Store，以在实例及其组件中使用store,注册后才能在用this.$store使用
+    new Vue({
+        el:"#container",
+        store:store,
+        components:{
+            "component-a":A,
+            "component-b":B
+        },
+        //第一种方式 不使用mapState方法，直接使用返回值用，但是这样的话代码太多
+        // computed:{
+        //     count(){
+        //         return this.$store.state.count;
+        //     }
+        // }
+        //第二种方式 只能拿到store里的state的数据，但是如果自己的计算属性方法就没有办法写了
+        //mapState参数是字符串数组，就返回一个与数组相关的对象，因此可以用这种方式
+        // computed:mapState(['count','msg'])
+        //第三种方式，这种方式使用对象展开符，还可以添加自己的计算属性方法
+        computed:{
+            ...mapState(['count','msg']),
+            mine(){
+                return '实例自己的计算属性'
+            }
+        }
+
+
+    });
+    console.log(mapState(['count', 'msg']));//这个方法执行后返回的是对象
+</script>
+</html>

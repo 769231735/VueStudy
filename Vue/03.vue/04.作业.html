@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作业</title>
+</head>
+<body>
+<div id="component">
+    <dad></dad>
+</div>
+
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    *父子组件间的信息传递
+    *<1>. 父组件向子组件传递:是通过props(组件属性)传递某个值，在子组件内添加props选项，通过一个字符串数组,动态信息就通过 :msg
+    *<2>.子组件向父组件传递：是通过$on(监听事件)，$emit(事件触发)
+    * */
+
+    var Child = {
+        template:`<div>
+                    <button @click="emitEvent">{{num}}</button>
+                </div>`,
+        data(){
+            return {
+                num:0
+            }
+        },
+        methods:{
+            emitEvent(){
+            //    传递msg，将msg放置在自定义事件发布中,第一个参数为发布的事件名，第二个参数为传递的参数
+            //    向父集发射事件
+                this.num++;
+                this.$emit("sendNum1",this.num);
+                this.$emit("sendNum2",this.num);
+            }
+        }
+
+    }
+    var Dad = {
+        template:`<div>
+                    <child @sendNum1="getNum1"></child>
+                    <child @sendNum2="getNum2"></child>
+                    <p>点击总数：{{add}}</p>
+                </div>`,
+        components:{
+            Child
+        },
+        data(){
+            return {
+                num1:0,
+                num2:0
+            }
+
+        },
+        methods:{
+            getNum1(num){
+                console.log(num);//这里接受子组件传递的参数m，
+                this.num1 = num;
+            },
+            getNum2(num){
+                this.num2 = num;
+                console.log(num);//这里接受子组件传递的参数m，
+            }
+        },
+        computed:{
+            add(){
+                return this.num1+this.num2;
+            }
+        }
+
+    }
+
+
+    new Vue({
+        el:"#component",
+        components:{
+            Dad,
+            Child
+
+        }
+    })
+
+
+</script>
+</html>

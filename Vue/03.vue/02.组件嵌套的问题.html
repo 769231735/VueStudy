@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件的嵌套</title>
+</head>
+<body>
+    <div id="component">
+        <grand-pa></grand-pa>
+        <child></child>
+        <hr>
+        <ul>
+            <child></child>
+            <li is="child"></li>
+        </ul>
+        <table border="1">
+            <!--<tr-test></tr-test>-->
+            <!--table标签只能识别tr标签，识别不了tr-test。因此我们用is-->
+            <!-- is:可以用来在一些特定的标签上指定组件，避免浏览器加载时无法编译组件-->
+            <tr is="tr-test"></tr>
+        </table>
+    </div>
+
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    *Vue组件可以像HTML标签一样进行复合嵌套
+    * */
+    var Child = {
+        template:`<li><p>我是child</p></li>`
+    }
+
+    var Dad = {
+        template:`<div>
+                        <h2>我是Dad</h2>
+                        <child></child>
+                    </div>`,
+        components:{
+            child:Child
+        }
+    }
+
+    var GrandPa = {
+        template:`<div>
+                    <h1>我是grandPa</h1>
+                    <dad></dad>
+                    <child></child>
+                </div>`,
+        components:{
+            Dad,
+            Child
+        }
+    }
+
+    var TrTest = {
+        template:`<tr>
+                    <td>单元格1</td>
+                    <td>单元格2</td>
+                </tr>`
+    }
+
+  var vm = new Vue({
+        el:"#component",
+        //局部注册组件
+        components:{
+            GrandPa,
+            Dad,
+            Child,
+            TrTest
+        }
+    })
+
+
+</script>
+</html>

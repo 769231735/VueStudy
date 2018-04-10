@@ -1,0 +1,27 @@
+9    //创建一个vue的实例
+    let vm = new Vue({
+        el:"#root",//绑定到HTML的节点
+        data:{
+        //    初始化页面的状态
+            message:"今天天气好晴朗",
+            el:`<h1>我是标题</h1>`,
+        },
+        methods:{
+            //    事件的处理方法，都放在这里；也包括一些预定义的方法
+            clickFn:function () {
+                alert("点到了😯");
+                /*
+                * 在实例化过程中this都指向该实例对象
+                * */
+                alert(this.message);//今天天气好晴朗
+                this.message = "好想唱歌";
+
+            }
+        }
+    });
+    /*
+    * data中的属性和methods中的方法，都作为实例的属性和方法呈现
+    * */
+    console.log(vm);
+</script>
+</html>

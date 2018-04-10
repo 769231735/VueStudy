@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生命周期</title>
+</head>
+<body>
+    <div id="root">
+        <h1>{{message}}</h1>
+        <button @click="num++">点我加数字</button>
+        <p>{{num}}</p>
+    </div>
+
+</body>
+<script src="vue.js" ></script>
+<script>
+    /*
+    * Vue的生命周期，到挂载，到销毁这一个生命历程用几个函数表示，这些函数就被称为生命周期钩子函数(8个)
+    * */
+    //Vue实例
+    new Vue({
+        el:"#root",
+        data:{
+            message:"hello world",
+            num:0
+        },
+        beforeCreate() {
+            // console.log(this.$el);
+            // console.log(this.message);
+            console.log("beforeCreate");
+        },
+        created(){
+            //请求数据一般在这里请求，如果在mounted周期请求，就已经请求了一次了
+
+            //实例中已经存在data和methods，此处可以使用data属性和methods的方法
+            // console.log(this.$el);
+            // console.log(this.message);
+            console.log("created");
+        },
+        beforeMount(){
+            // console.log(this.$el);
+            // console.log(this.message);
+            console.log("beforeMount");
+        },
+        mounted(){
+            //此时Vue实例创建的节点已经插入html的DOM的结构中，用户此时可以看到Vue的效果了
+            // console.log(this.$el);
+            // console.log(this.message);
+            console.log("mounted");
+        },
+        beforeUpdate(){
+            //数据已经改变了，但是还没进入渲染到页面的时候
+            console.log(this.$el);
+            console.log("beforeUpdate");
+        },
+        updated(){
+            //我们每一次修改vue数据，导致页面重新渲染之后，就会进入该生命历程
+
+            console.log("updated");
+        },
+        beforeDestroy(){
+            console.log("beforeDestory");
+        },
+        destroyed(){
+            console.log("destroyed");
+        }
+    })
+
+
+    // let a = Symbol(3);
+    // let b = Symbol(3);
+
+    //set
+    // var arr = [1,3,4,9,5,5,2];
+    // arr.push(8);
+    // console.log(arr);
+    //
+    // var arr1 = [1,3,4,9,5,5,2];
+    // var set = new Set(arr1);
+    // set.add(8);
+    // console.log(set);
+
+//    for循环创建set
+//     var set = new Set();
+//     for (let i=0;i<10;i++){
+//         set.add(i);
+//     }
+//     console.log(set);
+//     console.log(set.size);
+
+    //for of
+    // for(var item of set){
+    //     console.log(item);
+    // };
+
+//    通过数组来创建set
+//    map
+//     var set = new Set();
+//     [1,10,10,10,2,4,3,5,5].map(function (item) {
+//         // console.log(item);
+//         set.add(item);
+
+
+//    扩展运算符
+//     var arr = [...set];
+//     console.log(arr);
+
+
+//    set.has
+
+    // console.log(set.has(5));
+
+//    map
+//    数组的遍历，更改数组
+//   var arr =  [1,2,3,4,3,5,5].map(function (item) {
+//         // console.log(item);
+//         set.add(item);
+//         return item*2;
+//     })
+//     console.log(set);
+//     console.log(arr);
+//
+// //    filter过滤（es6）
+//     var newArr = [1,2,3,4,5,3].filter(function (item) {
+//         if(item%2==0){
+//             return true;//满足条件保留
+//         }else{
+//             return false;//不满足条件保留
+//         }
+//     })
+
+    //set 并集，差集，交集
+
+//    并集：
+//    把两个成员拼接，相同的
+
+//     var c = new Set([1,2,3]);
+//     var d = new Set([4,2,3]);
+//
+//     console.log(...d);// 4,2,3
+//     var e = new Set([...c,...d]);
+//
+//     console.log(e);
+//
+// //    差集
+// //    把两个set成员不重复的部分输出
+//     var a = new Set([1,2,3]);
+//     var b = new Set([4,2,3]);
+//
+//     var newArr = [...a].filter(function (item) {
+//         return !b.has(item);
+//     })
+//     console.log(newArr);//1
+//
+// //    交集
+// //    把两个set内的成员有重复的部分提出来
+//     var a = new Set([1,2,3]);
+//     var b = new Set([4,2,3]);
+//
+//     var newArr = [...a].filter(function (item) {
+//         return b.has(item);
+//     })
+//     console.log(newArr);
+
+
+</script>
+</html>

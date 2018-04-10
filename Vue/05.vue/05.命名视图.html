@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>命名视图</title>
+    <style>
+        .act{
+            color:aquamarine;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+
+    <router-view name="nav"></router-view>
+    <router-view name="aside"></router-view>
+    <router-view></router-view>
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+<script>
+    Vue.use(VueRouter);
+    var Aside = {
+        template:`<div>侧边栏</div>`
+    }
+    var Nav = {
+        template:`<div>导航栏</div>`
+    }
+    var Content  = {
+        template:`<div>页面内容</div>`
+    }
+    var routes = [
+        {
+            path:'/',
+            redirect:'/index'
+        },
+        {
+            path:'/index',
+            components:{
+                default:Content,
+                nav:Nav,
+                aside:Aside
+            }
+        }
+    ];
+    var router = new VueRouter({
+        routes:routes,
+        // mode:'history',//改变模式，hash,history
+        linkActiveClass:'act'//给当前路由的link一个自定义class,给一个样式，如点击导航就变红
+    })
+    console.log(router);
+    new Vue({
+        el:"#container",
+        router:router,
+        data: {
+            name: '李四',
+            age: 88
+        },
+    })
+</script>
+</html>

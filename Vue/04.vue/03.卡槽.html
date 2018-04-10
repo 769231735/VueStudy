@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>卡槽</title>
+</head>
+<body>
+    <div id="container">
+        <slot-test>
+            <h1>我是父组件传过来的h1</h1>
+            <p>我是父组件的p</p>
+            <h1 slot="h1-slot">我是其他的h1</h1>
+        </slot-test>
+
+        <slot-test>
+            <h1><a href="###">百度</a></h1>
+        </slot-test>
+
+        <!--卡槽什么都不放就是卡槽的默认值-->
+        <slot-test></slot-test>
+    </div>
+
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    * <1>.卡槽：根据不同需要，在父组件内向子组件传递一些不同的结构，子组件接收这些的结构就是使用内置组件卡槽(slot)
+    * <2>.name用来指定要接收的标签:  name="h1-slot"，同时上面的html页面进行接收：slot="h1-slot"
+    * <3>.设置卡槽的默认值：直接在模板中<slot>这里写卡槽的默认值</slot>里面写默认值。
+    *
+    *
+    * */
+
+    var slotTest = {
+        template:`<div>
+            <p>我是一个卡槽的测试</p>
+            <!--<slot></slot>-->
+            <!--<slot>我是卡槽的默认值</slot>-->
+            <!--<注释>具名卡槽</注释>-->
+            <slot name="h1-slot"></slot><hr>
+</div>`
+    }
+    var vm = new Vue({
+        el:"#container",
+        components:{
+            slotTest
+        },
+        data:{
+
+        }
+    });
+
+
+</script>
+</html>

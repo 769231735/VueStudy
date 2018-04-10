@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="animate.css">
+
+    <title>Vue animation动画</title>
+    <style>
+         h3{
+             text-align: center;
+         }
+         .scale-enter-active{
+             animation: fadeIn 1s;
+         }
+         .scale-leave-active{
+             animation:fadeOut 1s;
+         }
+         @keyframes scale {
+             0%{
+             transform: scale(0);
+             }
+             50%{
+             transform: scale(2);
+             }
+             100%{
+             transform: scale(1);
+             }
+         }
+        @keyframes bounce {
+            0%{
+                transform: translateX(0);
+            }
+            50%{
+                transform: translateX(200px);
+            }
+            100%{
+                transform: translateX(00px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <button @click="isShow=!isShow">切换</button>
+        <!--使用插件库-->
+        <transition  enter-active-class="animated tada"
+                    leave-active-class="animated rotateOut">
+            <!--name代表这个动画以哪种动画实现-->
+            <h3 v-if="isShow">animation动画</h3>
+        </transition>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    * vue动画其实和css动画过度相似，主要用于
+    * v-if v-show v-is
+    * 等导致的视图切换时过渡效果
+    * Vue的动画的三种实现
+    * css3的过渡（transition）
+    * css3的动画（animation）和animate.css
+    * js钩子实现
+    *
+    * Vue动画都是通过内置组件transition来实现的
+    * Vue动画实现通过设置class 操作enter，enter-active,enter-to,leave,leave-active,leave-to
+    * */
+
+     new Vue({
+        el:"#container",
+        components:{
+
+        },
+        data:{
+            isShow:true
+        }
+    });
+
+</script>
+</html>

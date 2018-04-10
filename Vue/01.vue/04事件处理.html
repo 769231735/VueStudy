@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件处理</title>
+    <style>
+        .div1,.div2,.div3{
+            height: 300px;
+            width: 300px;
+            background: skyblue;
+            margin-top: 20px;
+        }
+        .div2>span{
+            display: block;
+            background: red;
+            margin: 0 auto;
+            width: 100px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!--简化写法，@-->
+        <div class="div1" @mouseenter="enter" @mouseleave="leave"></div>
+        <!--修饰符：.stop和.prevent-->
+        <!--.stop 阻止冒泡，.prevent阻止默认事件-->
+
+        <!--阻止a标签的跳转的默认事件-->
+        <a href="http://www.baidu.com" @click.prevent="clickFn">点击跳转</a>
+
+        <div class="div2" @click="parent">
+            <span @click.stop="son">子级标签</span>
+        </div>
+        <hr>
+
+        <!--其他修饰符：键盘事件-->
+        <h1>键盘事件</h1>
+        <input type="text" @keyup.space="keyUp" placeholder="点击空格"><br>
+        <input type="text" @keyup.up = "keyUp" placeholder="点击上键"><br>
+        <input type="text" @keyup.enter = "keyUp" placeholder="点击回车"><br>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#root",
+        data:{
+        },
+        methods:{
+            enter(){
+                console.log("enter");
+            },
+            leave(){
+                console.log("leave");
+            },
+            clickFn(){
+                console.log("点到了");
+            },
+            son(){
+                console.log("点击了son");
+            },
+            parent(){
+                console.log("点击了parent");
+            },
+            keyUp(e){
+                console.log(e.keyCode);
+            }
+
+        }
+    });
+
+</script>
+</html>

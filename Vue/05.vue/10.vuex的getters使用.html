@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuex的getters的使用</title>
+</head>
+<body>
+
+<div id="container">
+    {{count}}
+    {{$store.getters.againCount}}
+    <component-a></component-a>
+    <component-b></component-b>
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vuex"></script>
+<script>
+
+    console.log(Vuex);
+    var mapState = Vuex.mapState;//对类似data的写法的简化
+    var mapMutations = Vuex.mapMutations;//对类似于methods的写法的简化
+    var mapGetters = Vuex.mapGetters;//对类似于computed的写法的简化
+
+
+
+    var store = new Vuex.Store({
+        state: {
+            count: 0,
+            msg: 'store的信息'
+        },
+        mutations: {
+            add(state,n){
+                state.count +=n;
+            },
+            reduce(state,n){
+                state.count -=n;
+            }
+        },
+        getters:{
+            // 相当于组件中的computed，仍然适用于所有的组件
+            againCount(state){
+                return state.msg+''+state.count*2;
+            }
+        }
+    })
+
+    console.log(mapState(['count','msg']));
+
+    var A = {
+        template: `<div>
+            <p>{{$store.state.count}}</p>
+            <!--<button @click="$store.commit('add',10)">+</button>-->
+            <!--<button @click="$store.commit('reduce',5)">-</button>-->
+            <button @click="add(10)">+</button>
+            <button @click="reduce(5)">-</button>
+            <button @click="addFn(20)">++</button>
+        </div>`,
+        methods:{
+            ...mapMutations(['add','reduce']),
+            // 也可以使用对象(了解)
+            ...mapMutations({
+                addFn:'add'
+            })
+        }
+    }
+
+    var B = {
+        template: `<div>
+            <p>{{count}}</p>
+            <p>{{againCount}}</p>
+        </div>`,
+        computed: {
+            ...mapState(['count']),
+            ...mapGetters(['againCount'])
+        }
+    }
+
+
+    //注册Store，以在实例及其组件中使用store
+    new Vue({
+        el:'#container',
+        store: store,
+        components: {
+            'component-a': A,
+            'component-b': B
+        },
+        computed: {
+            ...mapState(['count','msg']),
+            mine() {
+                return '实例自己的计算属性'
+            }
+        }
+    })
+
+</script>
+</html>

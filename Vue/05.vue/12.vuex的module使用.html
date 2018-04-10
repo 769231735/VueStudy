@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vuex的module的使用</title>
+</head>
+<body>
+
+<div id="container">
+    {{$store.state.cate.count}}
+    {{$store.getters.againCount}}
+    <component-a></component-a>
+    <component-b></component-b>
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vuex"></script>
+<script>
+    /*
+    *目前对于store中的state是供整个应用的使用，可以使用module将我们的state进行模块拆分，
+    * 一个module相当于一个小的store，同样具备state，mutations，getters和actions
+    * */
+
+
+    console.log(Vuex);
+    var mapState = Vuex.mapState;//对类似data的写法的简化
+    var mapMutations = Vuex.mapMutations;//对类似于methods的写法的简化
+    var mapGetters = Vuex.mapGetters;//对类似于computed的写法的简化
+    var mapActions = Vuex.mapActions;//处理异步函数的简化方法
+
+
+    var cateModule = {
+        state: {
+            count: 0,
+            msg: 'store的信息'
+        },
+        mutations: {
+            add(state,n){
+                state.count +=n;
+            },
+            reduce(state,n){
+                state.count -=n;
+            }
+        },
+        getters:{
+            // 相当于组件中的computed，仍然适用于所有的组件
+            againCount(state){
+                return state.msg+''+state.count*2;
+            }
+        },
+        actions:{
+            addAction(context){
+                // context具备store的方法，如commit的方法
+                setTimeout(()=>{
+                    context.commit('add',9)
+                },1000)
+            },
+            reduceAction({commit}){
+                setTimeout(()=>{
+                    commit('reduce',5)
+                })
+            }
+        }
+    }
+    var store = new Vuex.Store({
+        //写在store内部就是根状态，
+        state: {
+            count: 0,
+            msg: '全局的信息'
+        },
+        modules:{
+            cate:cateModule
+        }
+    })
+
+    console.log(mapState(['count','msg']));
+
+    var A = {
+        template: `<div>
+            <p>{{$store.state0.cate.count}}</p>
+             <button @click="addAction()">+</button>
+            <button @click="reduceAction()">-</button>
+            <button @click="addFn(20)">++</button>
+        </div>`,
+        methods:{
+            ...mapMutations(['add','reduce']),
+            // 也可以使用对象(了解)
+            ...mapMutations({
+                addFn:'add'
+            }),
+            ...mapActions(["addAction","reduceAction"])
+        }
+    }
+
+    var B = {
+        template: `<div>
+            <p>{{count}}</p>
+            <p>{{againCount}}</p>
+        </div>`,
+        computed: {
+            ...mapState(['count']),
+            ...mapGetters(['againCount'])
+        }
+    }
+
+
+    //注册Store，以在实例及其组件中使用store
+    new Vue({
+        el:'#container',
+        store: store,
+        components: {
+            'component-a': A,
+            'component-b': B
+        },
+        computed: {
+            ...mapState(['count','msg']),
+            mine() {
+                return '实例自己的计算属性'
+            }
+        }
+    })
+
+</script>
+</html>

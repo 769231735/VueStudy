@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>条件的渲染</title>
+    <style>
+        .div1{
+            width: 300px;
+            height: 300px;
+            background: gold;
+        }
+        .div2{
+            width: 300px;
+            height: 300px;
+            background: skyblue;
+        }
+        .div3{
+            width: 300px;
+            height: 300px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<!-- virtual DOM -->
+    <div id="root">
+        <!--条件渲染v-if,如果条件成立，就会在DOM结构中添加该标签，反之，才删除-->
+        <!--紧跟着的v-else是v-if的取反-->
+        <div class="div1" v-if="bol"></div>
+        <!--if 和 else要在一起用下面的p标签有，就会报错。就是这if和else这两个标签必须上下连在一起;
+        <!--<p>艾斯德斯共和国</p>-->
+        <div class="div2" v-else="bol"></div>
+        <button @click="bol=!bol">点击我</button>
+
+        <div class="div1" v-if="color=='gold'" style="background:gold "></div>
+        <div class="div2" v-else-if="color=='skyblue'" style="background: skyblue"></div>
+        <div class="div3" v-else style="background: red"></div>
+
+        <!--template只是用来包裹块代码，不会渲染出来，类似小程序里的block-->
+        <template v-if="bol">
+            <p>师傅打电话1</p>
+            <h1>说服力1</h1>
+            <a href="###">东方钢铁研究1</a>
+        </template>
+        <template v-else>
+            <p>师傅打电话2</p>
+            <h1>说服力2</h1>
+            <a href="###">东方钢铁研究2</a>
+        </template>
+        <hr>
+        <!--show和if的区别：show只是通过display：none或者block控制元素的显示与隐藏，if改变DOM结构的添加和删除-->
+        <div class="div1" v-show="bol"></div>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#root",
+        data:{
+            bol:true,
+            color:"skyblue"
+
+
+        },
+        methods:{
+
+        }
+    });
+    console.log(vm);
+
+</script>
+</html>

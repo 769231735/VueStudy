@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vuex</title>
+</head>
+<body>
+    <div id="container">
+        <component-a></component-a>
+        <component-b></component-b>
+        <!--报错-->
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    * vuex就是状态管理器，用于兄弟组件的数据传递，大型项目用这个，小型项目就用bus就可以
+    * */
+    var A = {
+        template:`<div>
+                    <p>{{count}}</p>
+                    <button @click="count++">+</button>
+                    <button @click="count--">-</button>
+                </div>`,
+        data(){
+            return {
+                count:0
+            }
+        }
+    }
+    var B = {
+        template:`<div>
+                <p>{{count}}</p>
+</div>`
+    }
+    new Vue({
+        el:"#container",
+        data:{
+
+        },
+        methods:{
+
+        },
+        components:{
+            "component-a":A,
+            "component-b":B
+        }
+
+
+    });
+</script>
+</html>

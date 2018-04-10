@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤器</title>
+</head>
+<body>
+    <div id="root">
+        <p>#root:{{money | currency}}</p>
+        <p>#root:{{message | capitalize}}</p>
+    </div>
+    <div id="wrap">
+        <p>#wrap:{{money|currency}}</p>
+    </div>
+</body>
+<script src="vue.js" ></script>
+<script>
+    // 过滤器，filter，通过一个管道(|),将管道前的数据通过管道
+    // 后的方法进行再计算，形式：值 | 过滤器
+    // 过滤器可以通过全局或者Vue进行注册，全局的是所有的Vue实例都可以使用，Vue实例注册只能在该实例中使用
+
+    //全局注册，所有的都可以使用
+    Vue.filter('currency',function (val) {
+        return "￥" + val.toFixed(2);
+    })
+    var vm1 = new Vue({
+        el:"#root",
+        data:{
+            money:100,
+            message:"mikey"
+        },
+    //  局部注册过滤器
+        filters:{
+        //    这里方法名就是过滤器的名字
+            capitalize(val){
+                return val.charAt(0).toUpperCase() + val.slice(1);
+            }
+        }
+    });
+    var vm2 = new Vue({
+        el:"#wrap",
+        data:{
+            money:10000
+        }
+    });
+</script>
+</html>

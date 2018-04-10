@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义指令</title>
+</head>
+<body>
+<div id="root">
+    <input type="text" v-focus>
+
+    <div v-css="{color:'red',fontSize:'100px'}">好多美女啊</div>
+</div>
+
+</body>
+<script src="vue.js" ></script>
+<script>
+
+    //自定义指令：将js原生操作转成vue指令，全局注册和局部注册
+    //这里的Vue.directive()为全局注册，所有Vue的实例都可以使用这个指令。第一个参数为自定义的指令名。
+    Vue.directive("focus",{
+        inserted(el,binding){
+            // 该指令所绑定的节点插入到HTML时
+            console.log(el);//获取的是这个元素的节点
+            console.log(binding);
+            el.focus();//自动聚焦
+        }
+    });
+    //Vue实例
+    new Vue({
+        el:"#root",
+        data:{
+        },
+        //这里是局部注册指令，在其他的Vue的实例里用不了
+        directives:{
+            //directvies对象的属性就是指令名
+            css:{
+                inserted(el,binding){
+                    console.log(el);
+                    console.log(binding);
+                    var styleObj = binding.value;
+                    for(var k in styleObj){
+                        // 这里因为k为变量，因此我们只能用[]赋值法，不能用点语法
+                        el.style[k] = styleObj[k]
+                    }
+
+                }
+            }
+        }
+    })
+</script>
+</html>

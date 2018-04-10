@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单元素的绑定</title>
+</head>
+<body>
+    <div id="root">
+        <input type="text" v-model="text">
+        <!--v-model,数据模型，将表单元素的value绑定到data对应的属性上-->
+        <!--双向数据绑定，MVVM框架的特征-->
+        <textarea name="" id="" cols="30" rows="10" v-model="text"></textarea>
+        <h1> {{text}}</h1>
+        <hr>
+        <!--单选框和多选框-->
+        <!--性别：<input type="checkbox" v-model="checked">{{checked}}-->
+        <input type="checkbox" value="banana" v-model="fruits">banana
+        <input type="checkbox" value="apple" v-model="fruits">apple
+        <input type="checkbox" value="orange" v-model="fruits">orange
+        <p>我的购物栏里的商品有</p>
+        <ul>
+            <li v-for="fruit in fruits">
+                {{fruit}}
+            </li>
+        </ul>
+        <hr>
+        <!--单选框-->
+        <input type="radio" value="banana" v-model="fruit">banana
+        <input type="radio" value="apple" v-model="fruit">apple
+        <input type="radio" value="orange" v-model="fruit">orange
+        <p>What I Can Buy？</p>
+        <p>{{fruit}}</p>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#root",
+        data:{
+            text:"",
+            checked:true,
+            fruits:[],
+            fruit:""
+        },
+        methods:{
+
+        }
+    });
+</script>
+</html>

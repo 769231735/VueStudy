@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>嵌套路由</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <router-link to="/food">食物</router-link>
+    <router-link :to="{name:'cartRoute',params:{name:name},query:{age:age}}">购物车</router-link>
+    <router-view></router-view>
+</div>
+</body>
+<script src="vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+    Vue.use(VueRouter);
+    var Food = {
+        template: `<h3>食物
+            <!--<p>子路由出口</p>-->
+            <br>
+            <router-link  to="/food/list">列表list</router-link>
+            <router-link  to="/food/detail">详情detail</router-link>
+            <router-view></router-view>
+</h3>`,
+
+    }
+    var Cart = {
+        template:`<h4>购物车
+            <p>$route.params:{{$route.params}}</p>
+            <p style="color: red">$route是代表该路由的对象</p>
+            <p>$route.path：{{$route.path}}</p>
+            <p>$route.query：{{$route.query}}</p>
+        </h4>`
+    }
+   // 子路由组件
+    var List ={
+        template:`<div>食物列表</div>`
+    }
+    var Detail = {
+        template:`<div>食物详情</div>`
+    }
+    // 主路由
+   var  routes = [{
+        path:"/food",
+        component:Food,
+        children:[
+        //定义子路由，子路由对应的组件会在父路由的组件中显示
+            {
+                path:"list",
+                component:List
+            },
+            {
+                path:"detail",
+                component:Detail
+            },
+        ]
+    },{
+        path:"/cart/:name",
+        component:Cart,
+        name:"cartRoute"
+    }]
+    var router = new VueRouter({
+        routes:routes
+    })
+    new Vue({
+        el:"#container",
+        router:router,
+        data:{
+            name:'李四',
+            age:88
+        }
+    })
+
+</script>
+</html>

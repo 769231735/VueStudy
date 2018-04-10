@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件</title>
+</head>
+<body>
+    <div id="container">
+        <!--<Index></Index>-->
+        <!--<Game></Game>-->
+        <!--<component is="Index"></component>-->
+        <keep-alive>
+            <component :is="currentView"></component>
+        </keep-alive>
+        <button @click="currentView=currentView=='Index'?'Game':'Index'">
+            组件的切换
+        </button>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script>
+    /*
+    *<1>.动态组件：在某个区域，UI是非固定的，可以通过切换组件的方式，决定UI的变化
+    *<2>.动态组件使用内置组件（component）通过is属性进行绑定
+    *<3>.内置组件<keep-alive></keep-alive>,使得组件在切换时不会每次创建，而是读取缓存
+    *
+    * */
+    var Index = {
+        template:`<div>
+            <p>我是首页</p>
+            <button>游戏页</button>
+</div>`,
+        created(){
+            console.log("createdA");
+        }
+    }
+    var Game = {
+        template:`<div>
+        <p>我是游戏页</p>
+        <button>返回上一页</button>
+</div>`,
+        created(){
+            console.log("createdB");
+        }
+    }
+
+    var vm = new Vue({
+        el:"#container",
+        components:{
+            Index,Game
+        },
+        data:{
+            currentView:"Index"
+        }
+    });
+</script>
+</html>
