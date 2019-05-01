@@ -18,6 +18,7 @@
     function isUndef (v) {
         return v === undefined || v === null
     }
+    // 我是vue1
 
     function isDef (v) {
         return v !== undefined && v !== null
@@ -1521,6 +1522,7 @@
             );
         }
         return res
+        // 我是vue2
     }
 
     /*  */
@@ -1859,7 +1861,7 @@
             })
         }
     }
-
+// 我是vue3
     /*  */
 
     var mark;
@@ -2641,7 +2643,7 @@
         vm._isDestroyed = false;
         vm._isBeingDestroyed = false;
     }
-
+// 我是vue4
     function lifecycleMixin (Vue) {
         Vue.prototype._update = function (vnode, hydrating) {
             var vm = this;
@@ -2814,6 +2816,7 @@
         {
             isUpdatingChildComponent = true;
         }
+        // 我是vue5
 
         // determine whether component has slot children
         // we need to do this before overwriting $options._renderChildren
@@ -3259,7 +3262,7 @@
             this$1.deps[i].depend();
         }
     };
-
+// 我是vue6
     /**
      * Remove self from all dependencies' subscriber list.
      */
@@ -5790,7 +5793,7 @@
             var newStartVnode = newCh[0];
             var newEndVnode = newCh[newEndIdx];
             var oldKeyToIdx, idxInOld, vnodeToMove, refElm;
-
+// 我似乎已经忘记我是第几个了呢，哈哈
             // removeOnly is a special flag used only by <transition-group>
             // to ensure removed elements stay in correct relative positions
             // during leaving transitions
@@ -6104,6 +6107,7 @@
                                 );
                             }
                         }
+                        // 这个你就是真的不懂了吧
                         // either not server-rendered, or hydration failed.
                         // create an empty node and replace it
                         oldVnode = emptyNodeAt(oldVnode);
@@ -7388,7 +7392,7 @@
         if (!cls || !(cls = cls.trim())) {
             return
         }
-
+// 这个是vue的源码呢
         /* istanbul ignore else */
         if (el.classList) {
             if (cls.indexOf(' ') > -1) {
@@ -8038,6 +8042,7 @@
                 }
             }
         }
+        // 这个电脑打字是真的舒服啊，哈哈
         if (!isMultiple) {
             el.selectedIndex = -1;
         }
@@ -8833,6 +8838,7 @@
                         parseEndTag(endTagMatch[1], curIndex, index);
                         continue
                     }
+                // mac电脑真的代表更高效率的生产力么
 
                     // Start tag:
                     var startTagMatch = parseStartTag();
